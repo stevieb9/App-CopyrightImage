@@ -1,0 +1,21 @@
+use warnings;
+use strict;
+
+use App::CopyrightImage;
+use Getopt::Long;
+
+my %opts;
+
+GetOptions(
+    "i|image=s" => \$opts{src},
+    "c|check"   => \$opts{check},
+    "n|name=s"  => \$opts{name},
+    "e|email=s" => \$opts{email},
+    "d|dst=s"   => \$opts{dst},
+);
+
+my %err = imgcopyright(%opts);
+
+for (sort keys %err){
+    print "$_\n";
+}
