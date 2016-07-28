@@ -1,55 +1,130 @@
-App-CopyrightImage
+    App::CopyrightImage - Easily add copyright information to your images
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
+        # single image, will be put into ./ci_picture.jpg
+        # we set the 'Copyright' and 'Creator' EXIF tags
+    
+        imgcopyright --image picture.jpg --name "Steve Bertrand"
+    
+        # all images within a directory, images put into
+        # /home/user/Pictures/ci
+    
+        imgcopyright -i /home/user/Pictures -n "Steve Bertrand"
+    
+        # check an image (or directory of images) for files with no
+        # copyright info
+    
+        imgcopyright -i /home/user/Pictures --check
+    
+        # add an email along with your name to the 'Creator' tag
+    
+        imgcopyright -i picture.jpg -n "Steve Bertrand" --email "steveb@cpan.org"
+    
+        # specify an alternate directory for the altered images
+    
+        imgcopyright -i /home/user/Pictures -name "steve" --dst ~/mypics
+    
+        # remove copyright info from image(s)
+    
+        imgcopyright -i picture.jpg --remove
+    
+        # force over a previous copyright
+    
+        imgcopyright -i picture.jpg -n "steve" --force
 
-A README file is required for CPAN modules since CPAN extracts the README
-file from a module distribution so that people browsing the archive
-can use it to get an idea of the module's uses. It is usually a good idea
-to provide version information here so that people can decide whether
-fixes for the module are worth downloading.
+    This imgcopyright application allows you to add copyright information
+    to the EXIF data within image files. It also allows you to check images
+    for missing copyright info and remove info.
 
+    It works on individual files, as well as recurses (top-level only) of a
+    supplied directory.
 
-INSTALLATION
+    It does NOT modify the original file. We create a subdirectory named ci
+    in whatever path you specify (current working directory if a path is
+    not sent in), and we then take a copy of each original file, modify it,
+    prefix the filename with a ci_, and place it into the new ci directory.
 
-To install this module, run the following commands:
+OPTIONS
 
-	perl Makefile.PL
-	make
-	make test
-	make install
+ -i, --image
 
-SUPPORT AND DOCUMENTATION
+    Mandatory in all cases.
 
-After installing, you can find documentation for this module with the
-perldoc command.
+    Name of a single image file, or a directory containing image files. In
+    the case of a directory, we'll iterate over the top level, and work on
+    all image files found.
 
-    perldoc App::CopyrightImage
+ -n, --name
 
-You can also look for information at:
+    Mandatory, unless using --check.
 
-    RT, CPAN's request tracker (report bugs here)
-        http://rt.cpan.org/NoAuth/Bugs.html?Dist=App-CopyrightImage
+    This is the name that will be used in the copyright string for the
+    Copyright EXIF tag, as well as the Creator tag.
 
-    AnnoCPAN, Annotated CPAN documentation
-        http://annocpan.org/dist/App-CopyrightImage
+ -e, --email
 
-    CPAN Ratings
-        http://cpanratings.perl.org/d/App-CopyrightImage
+    Optional.
 
-    Search CPAN
-        http://search.cpan.org/dist/App-CopyrightImage/
+    This is appended to the --name when populating the Creator EXIF tag if
+    it is sent in.
 
+ -c, --check
+
+    Optional.
+
+    Checks for missing Copyright and/or Creator EXIF tags in the image(s)
+    sent in with the --image option.
+
+ -d, --dst
+
+    Optional.
+
+    By default, we use the directory sent in with --image (current working
+    directory if a path isn't provided), and put all modified images in a
+    new ci directory under it.
+
+    Send in a directory path with this option and we'll put the image files
+    there instead.
+
+ -r, --remove
+
+    Optional.
+
+    Removes copyright EXIF information for files sent in with --image.
+
+ -f, --force
+
+    By default, if an image already has EXIF copyright information, we skip
+    over it and do nothing. Set this option to overwrite any found
+    copyright info.
+
+AUTHOR
+
+    Steve Bertrand, <steveb at cpan.org>
 
 LICENSE AND COPYRIGHT
 
-Copyright (C) 2016 Steve Bertrand
+    Copyright 2016 Steve Bertrand.
 
-This program is free software; you can redistribute it and/or modify it
-under the terms of either: the GNU General Public License as published
-by the Free Software Foundation; or the Artistic License.
+    This program is free software; you can redistribute it and/or modify it
+    under the terms of either: the GNU General Public License as published
+    by the Free Software Foundation; or the Artistic License.
 
-See L<http://dev.perl.org/licenses/> for more information.
+    See http://dev.perl.org/licenses/ for more information.
+
+POD ERRORS
+
+    Hey! The above document had some coding errors, which are explained
+    below:
+
+    Around line 1:
+
+      Unknown directive: =HEAD1
+
+    Around line 5:
+
+      Unknown directive: =HEAD1
+
+    Around line 38:
+
+      Unknown directive: =HEAD1
 

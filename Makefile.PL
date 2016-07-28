@@ -18,10 +18,13 @@ WriteMakefile(
         'ExtUtils::MakeMaker' => 0,
     },
     BUILD_REQUIRES => {
+        'File::Copy' => 0,
+        'File::Path' => 0,
         'Test::More' => 0,
     },
     PREREQ_PM => {
         'File::Find::Rule'  => 0,
+        'Getopt::Long'      => 0,
         'Image::ExifTool'   => 10.20,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },

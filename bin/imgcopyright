@@ -76,4 +76,70 @@ in whatever path you specify (current working directory if a path is not sent
 in), and we then take a copy of each original file, modify it, prefix the
 filename with a C<ci_>, and place it into the new C<ci> directory.
 
-=HEAD1
+=head1 OPTIONS
+
+=head2 -i, --image
+
+Mandatory in all cases.
+
+Name of a single image file, or a directory containing image files. In the case
+of a directory, we'll iterate over the top level, and work on all image files
+found.
+
+=head2 -n, --name
+
+Mandatory, unless using C<--check>.
+
+This is the name that will be used in the copyright string for the C<Copyright>
+EXIF tag, as well as the C<Creator> tag.
+
+=head2 -e, --email
+
+Optional.
+
+This is appended to the C<--name> when populating the C<Creator> EXIF tag if
+it is sent in.
+
+=head2 -c, --check
+
+Optional.
+
+Checks for missing C<Copyright> and/or C<Creator> EXIF tags in the image(s)
+sent in with the C<--image> option.
+
+=head2 -d, --dst
+
+Optional.
+
+By default, we use the directory sent in with C<--image> (current working
+directory if a path isn't provided), and put all modified images in a new C<ci>
+directory under it. 
+
+Send in a directory path with this option and we'll put the image files there
+instead.
+
+=head2 -r, --remove
+
+Optional.
+
+Removes copyright EXIF information for files sent in with C<--image>.
+
+=head2 -f, --force
+
+By default, if an image already has EXIF copyright information, we skip
+over it and do nothing. Set this option to overwrite any found copyright
+info.
+
+=head1 AUTHOR
+
+Steve Bertrand, C<< <steveb at cpan.org> >>
+
+=head1 LICENSE AND COPYRIGHT
+
+Copyright 2016 Steve Bertrand.
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of either: the GNU General Public License as published
+by the Free Software Foundation; or the Artistic License.
+
+See L<http://dev.perl.org/licenses/> for more information.

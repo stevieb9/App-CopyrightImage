@@ -4,7 +4,6 @@ use 5.006;
 use warnings;
 use strict;
 
-use Data::Dumper;
 use Exporter qw(import);
 use File::Basename;
 use File::Copy;
