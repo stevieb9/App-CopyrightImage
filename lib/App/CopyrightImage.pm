@@ -139,6 +139,12 @@ __END__
 
 App::CopyrightImage - Easily add Copyright information to your images
 
+=for html
+<a href="http://travis-ci.org/stevieb9/p5-app-copyrightimage"><img src="https://secure.travis-ci.org/stevieb9/p5-app-copyrightimage.png"/></a>
+<a href="https://ci.appveyor.com/project/stevieb9/p5-app-copyrightimage"><img src="https://ci.appveyor.com/api/projects/status/br01o72b3if3plsw/branch/master?svg=true"/></a>
+<a href='https://coveralls.io/github/stevieb9/p5-app-copyrightimage?branch=master'><img src='https://coveralls.io/repos/stevieb9/p5-app-copyrightimage/badge.svg?branch=master&service=github' alt='Coverage Status' /></a>
+
+
 =head1 SYNOPSYS
 
     # single image, will be put into ./ci_picture.jpg
