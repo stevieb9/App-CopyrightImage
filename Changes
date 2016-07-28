@@ -1,5 +1,10 @@
 Revision history for App-CopyrightImage
 
-0.01    Date/time
+0.02    2016-07-28
+        - most EXIF functionality working
+        - basic unit tests
+        - basic documentation
+
+0.01    2016-07-28
         First version, released on an unsuspecting world.
 
