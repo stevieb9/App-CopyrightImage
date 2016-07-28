@@ -71,6 +71,34 @@ my $e = Image::ExifTool->new;
     $t->clean;
 }
 
+{ # force: multi copy + no-copy
 
+    my %err = imgcopyright(src => $t->build, name => 'steve', force => 1);
+
+    is keys %err, 0, "with force, no output";
+
+    my $dir = $t->build ."/ci";
+    my @images = glob "$dir/*";
+
+    is -d $dir, 1, "ci dir created ok";
+    is @images, 2, "with force, all files get hacked";
+
+    for (@images){
+        is -f $_, 1, "ci/$_ created ok";
+
+        $e->ExtractInfo($_);
+        like 
+            $e->GetValue('Copyright'), 
+            qr/Copyright \(C\) \d{4} by steve/,
+            "copyright ok on $_";
+
+        like 
+            $e->GetValue('Creator'), 
+            qr/steve/, 
+            "creator ok on $_";
+    }
+
+    $t->clean;
+}
 
 done_testing();

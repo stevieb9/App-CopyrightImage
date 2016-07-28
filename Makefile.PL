@@ -20,6 +20,7 @@ WriteMakefile(
     BUILD_REQUIRES => {
         'File::Copy' => 0,
         'File::Path' => 0,
+        'Hook::Output::Tiny' => 0.05,
         'Test::More' => 0,
     },
     PREREQ_PM => {
