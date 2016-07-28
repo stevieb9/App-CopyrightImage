@@ -1,3 +1,4 @@
+#!/usr/bin/perl
 use warnings;
 use strict;
 
@@ -12,10 +13,11 @@ GetOptions(
     "n|name=s"  => \$opts{name},
     "e|email=s" => \$opts{email},
     "d|dst=s"   => \$opts{dst},
+    "r|remove"  => \$opts{remove},
 );
 
 my %err = imgcopyright(%opts);
 
-for (sort keys %err){
-    print "$_\n";
+for my $k (sort keys %err){
+    print "$k: $err{$k}\n";
 }

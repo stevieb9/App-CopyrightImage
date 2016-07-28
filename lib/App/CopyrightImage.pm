@@ -4,8 +4,10 @@ use 5.006;
 use warnings;
 use strict;
 
+use Data::Dumper;
 use Exporter qw(import);
 use File::Basename;
+use File::Copy;
 use File::Find::Rule;
 use Image::ExifTool qw(:Public);
 
@@ -16,8 +18,10 @@ our $VERSION = '0.01';
 sub imgcopyright {
     my (%data) = @_;
 
-    die "need an image entry!\n" if ! $data{src};
-
+    die "need to supply the 'image' argument!\n" if ! $data{src};
+    if (! $data{check} && ! $data{name}){
+        die "need to supply the 'name' argument\n";
+    }
     $data{year} = (localtime(time))[5] + 1900;
 
     if ($data{dst} && -d $data{dst}){
@@ -28,7 +32,7 @@ sub imgcopyright {
         $data{basename} = $data{src};
     }
     else {
-        $data{basename} = basename $data{src};
+        $data{basename} = dirname $data{src};
     }
 
     if (-d $data{src}){
@@ -65,12 +69,20 @@ sub _exif {
 
         # original
         
-        my $et = Image::ExifTool->new;
         $et->ExtractInfo($img);
+
+        if ($data->{remove}){
+            $et->SetNewValue('Copyright', '');
+            $et->SetNewValue('Creator', '');
+            $et->WriteInfo($img, "$img.tmp");
+            move "$img.tmp", $img;
+            next;
+        }
+
         my $cp = $et->GetValue('Copyright');
         my $cr = $et->GetValue('Creator');
 
-        if (! $data->{force}){
+        if (! $data->{force} && ($cp || $cr)){
             my $set = "Copyright is already set;" if $cp;
             $set .= " Creator is already set;" if $cr;
             $errors{$img} = $set;
@@ -94,11 +106,11 @@ sub _exif {
 
         $et->ExtractInfo($ci_img);
 
-        $errors{$img} .= "failed to add Copyright; "
-          if ! $et->GetNewValue('Copyright');
+        $errors{$img} = "failed to add Copyright; "
+          if ! $et->GetValue('Copyright');
 
         $errors{$img} .= "failed to add Creator"
-          if ! $et->GetNewValue('Creator');
+          if ! $et->GetValue('Creator');
     }
     return %errors;
 }
