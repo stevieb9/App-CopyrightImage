@@ -139,54 +139,6 @@ __END__
 
 App::CopyrightImage - Easily add Copyright information to your images
 
-
-=head1 AUTHOR
-
-Steve Bertrand, C<< <steveb at cpan.org> >>
-
-=head1 LICENSE AND COPYRIGHT
-
-Copyright 2016 Steve Bertrand.
-
-This program is free software; you can redistribute it and/or modify it
-under the terms of either: the GNU General Public License as published
-by the Free Software Foundation; or the Artistic License.
-
-See L<http://dev.perl.org/licenses/> for more information.
-
-
-
-#!/usr/bin/perl
-use warnings;
-use strict;
-
-use App::CopyrightImage;
-use Getopt::Long;
-
-my %opts;
-
-GetOptions(
-    "i|image=s" => \$opts{src},
-    "c|check"   => \$opts{check},
-    "n|name=s"  => \$opts{name},
-    "e|email=s" => \$opts{email},
-    "d|dst=s"   => \$opts{dst},
-    "r|remove"  => \$opts{remove},
-    "f|force"   => \$opts{force},
-);
-
-my %err = imgcopyright(%opts);
-
-for my $k (sort keys %err){
-    print "$k: $err{$k}\n";
-}
-1;
-__END__
-
-=head1 NAME
-
-App::CopyrightImage - Easily add copyright information to your images
-
 =head1 SYNOPSYS
 
     # single image, will be put into ./ci_picture.jpg

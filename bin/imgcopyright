@@ -27,7 +27,7 @@ __END__
 
 =head1 NAME
 
-App::CopyrightImage - Easily add copyright information to your images
+imgcopyright - Easily add copyright information to your images
 
 =head1 SYNOPSYS
 
