@@ -1,5 +1,11 @@
 Revision history for App-CopyrightImage
 
+0.03    2016-07-28
+        - tests for 'force'
+        - cleaned up other tests
+        - added more documentation
+        - added Travis and Appveyor CI integration
+
 0.02    2016-07-28
         - most EXIF functionality working
         - basic unit tests
