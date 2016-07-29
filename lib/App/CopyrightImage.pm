@@ -12,7 +12,7 @@ use Image::ExifTool qw(:Public);
 
 our @EXPORT = qw(imgcopyright);
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 sub imgcopyright {
     my (%data) = @_;
