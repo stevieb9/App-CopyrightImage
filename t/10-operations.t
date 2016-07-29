@@ -2,6 +2,7 @@ use warnings;
 use strict;
 
 use App::CopyrightImage;
+use File::Copy;
 use Hook::Output::Tiny;
 use Image::ExifTool qw(:Public);
 use Test::More;
@@ -97,6 +98,74 @@ my $e = Image::ExifTool->new;
             qr/steve/, 
             "creator ok on $_";
     }
+
+    $t->clean;
+}
+
+{ # dst: single no-copy
+    
+    my $dir = $t->build ."/dst";
+    
+    my %err = imgcopyright(
+        src => $t->base, 
+        name => 'steve', 
+        dst => $dir,
+    );
+
+    is keys %err, 0, "no output on check with no exif";
+
+    my $img = "$dir/ci_base.jpg";
+
+    is -d $dir, 1, "dst dir created ok";
+    is -f $img, 1, "dst dir/ci_base.jpg created ok";
+
+    $e->ExtractInfo($img);
+    like 
+        $e->GetValue('Copyright'), 
+        qr/Copyright \(C\) \d{4} by steve/,
+        "copyright ok";
+
+    like 
+        $e->GetValue('Creator'), 
+        qr/steve/, 
+        "creator ok";
+
+    my @files = glob "$dir/*";
+    is @files, 1, "only one file when copyrighting a single file";
+
+    $t->clean;
+}
+
+{ # remove
+    my $dir = $t->build ."/ci";
+    my $img = $t->copyr;
+    
+    $e->ExtractInfo($img);
+
+    like 
+        $e->GetValue('Copyright'), 
+        qr/Copyright \(C\) \d{4}/,
+        "copyright ok";
+
+    like 
+        $e->GetValue('Creator'), 
+        qr/Steve/, 
+        "creator ok";
+   
+    my %err = imgcopyright(
+        src => $t->copyr, 
+        remove => 1,
+        dst => $dir,
+    );
+
+    is keys %err, 0, "no output on check with no exif";
+
+    $img = "$dir/copyr.jpg";
+
+    $e->ExtractInfo($img);
+
+    is $e->GetValue('Copyright'), undef, "remove deletes copyright";
+    is $e->GetValue('Creator'), undef, "remove deletes creator";
 
     $t->clean;
 }

@@ -18,7 +18,7 @@ sub imgcopyright {
     my (%data) = @_;
 
     die "need to supply the 'image' argument!\n" if ! $data{src};
-    if (! $data{check} && ! $data{name}){
+    if (! $data{name} && (! $data{check} && ! $data{remove})){
         die "need to supply the 'name' argument\n";
     }
     $data{year} = (localtime(time))[5] + 1900;
@@ -54,8 +54,10 @@ sub imgcopyright {
 sub _exif {
     my $data = shift; 
 
-    my $dst = "$data->{basename}/ci";
-
+    my $dst = $data->{dst} 
+        ? $data->{dst} 
+        : "$data->{basename}/ci";
+    
     if (! -d $dst){
         mkdir $dst
           or die "can't create the destination image directory $dst!: $!";
@@ -144,39 +146,31 @@ App::CopyrightImage - Easily add Copyright information to your images
 <a href="https://ci.appveyor.com/project/stevieb9/p5-app-copyrightimage"><img src="https://ci.appveyor.com/api/projects/status/br01o72b3if3plsw/branch/master?svg=true"/></a>
 <a href='https://coveralls.io/github/stevieb9/p5-app-copyrightimage?branch=master'><img src='https://coveralls.io/repos/stevieb9/p5-app-copyrightimage/badge.svg?branch=master&service=github' alt='Coverage Status' /></a>
 
+=head1 SYNOPSIS
 
-=head1 SYNOPSYS
+Modified copy of images will be placed into a new C<ci> directory within the
+directory you specify. If no directory is specified, we'll create it in the
+current working directory. All new images will be prefixed with C<ci_>.
 
-    # single image, will be put into ./ci_picture.jpg
-    # we set the 'Copyright' and 'Creator' EXIF tags
+    # set copyright
 
-    imgcopyright --image picture.jpg --name "Steve Bertrand"
+    imgcopyright -i picture.jpg -n "Steve Bertrand" -e "steveb@cpan.org"
 
-    # all images within a directory, images put into
-    # /home/user/Pictures/ci
+    # all pics in a directory
 
     imgcopyright -i /home/user/Pictures -n "Steve Bertrand"
 
-    # check an image (or directory of images) for files with no
-    # copyright info
+    # find images without copyright info
 
-    imgcopyright -i /home/user/Pictures --check
+    imgcopyright -i /home/user/Pictures -c
 
-    # add an email along with your name to the 'Creator' tag
+    # specify an alternate output directory
 
-    imgcopyright -i picture.jpg -n "Steve Bertrand" --email "steveb@cpan.org"
+    imgcopyright -i /home/user/Pictures -n "steve" -d ~/mypics
 
-    # specify an alternate directory for the altered images
+    # replace a previous copyright
 
-    imgcopyright -i /home/user/Pictures -name "steve" --dst ~/mypics
-
-    # remove copyright info from image(s)
-
-    imgcopyright -i picture.jpg --remove
-
-    # force over a previous copyright
-
-    imgcopyright -i picture.jpg -n "steve" --force
+    imgcopyright -i picture.jpg -n "steve" -f
 
 =head1 DESCRIPTION
 
@@ -187,10 +181,11 @@ missing copyright info and remove info.
 It works on individual files, as well as recurses (top-level only) of a
 supplied directory.
 
-It does NOT modify the original file. We create a subdirectory named C<ci>
-in whatever path you specify (current working directory if a path is not sent
-in), and we then take a copy of each original file, modify it, prefix the
-filename with a C<ci_>, and place it into the new C<ci> directory.
+It does NOT modify the original file (except for C<remove>). We create a 
+subdirectory named C<ci> in whatever path you specify (current working 
+directory if a path is not sent in), and we then take a copy of each original
+file, modify it, prefix the filename with a C<ci_>, and place it into the 
+new C<ci> directory.
 
 =head1 ARGUMENTS
 
@@ -237,6 +232,9 @@ instead.
 =head2 -r, --remove
 
 Optional.
+
+WARNING: This option DOES edit the original file, and does not make a copy
+first.
 
 Removes copyright EXIF information for files sent in with C<--image>.
 

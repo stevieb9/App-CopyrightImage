@@ -1,3 +1,4 @@
+appveyor.yml
 bin/imgcopyright
 Changes
 doc/install_image_magick.txt

@@ -10,7 +10,7 @@ sub new {
         data => 't/data',
         build => 't/build',
         base => 't/build/base.jpg',
-        copyr => 't/build/copy.jpg',
+        copyr => 't/build/copyr.jpg',
     }, shift;
     
     $self->build;

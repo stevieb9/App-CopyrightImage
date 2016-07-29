@@ -4,8 +4,9 @@ use strict;
 use App::CopyrightImage;
 
 imgcopyright(
-    src => 't/build',
-    name => 'steve',
+    src => 't/data/base.jpg',
+#    name => 'steve',
+    check => 1,
 );
 __END__
 imgcopyright(

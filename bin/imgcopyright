@@ -36,36 +36,29 @@ imgcopyright - Easily add copyright information to your images
 
 =head1 SYNOPSYS
 
-    # single image, will be put into ./ci_picture.jpg
-    # we set the 'Copyright' and 'Creator' EXIF tags
+Modified copy of images will be placed into a new C<ci> directory within the
+directory you specify. If no directory is specified, we'll create it in the
+current working directory. All new images will be prefixed with C<ci_>.
 
-    imgcopyright --image picture.jpg --name "Steve Bertrand"
+    # set copyright
 
-    # all images within a directory, images put into
-    # /home/user/Pictures/ci
+    imgcopyright -i picture.jpg -n "Steve Bertrand" -e "steveb@cpan.org"
+
+    # all pics in a directory
 
     imgcopyright -i /home/user/Pictures -n "Steve Bertrand"
 
-    # check an image (or directory of images) for files with no
-    # copyright info
+    # find images without copyright info
 
-    imgcopyright -i /home/user/Pictures --check
+    imgcopyright -i /home/user/Pictures -c
 
-    # add an email along with your name to the 'Creator' tag
+    # specify an alternate output directory
 
-    imgcopyright -i picture.jpg -n "Steve Bertrand" --email "steveb@cpan.org"
+    imgcopyright -i /home/user/Pictures -n "steve" -d ~/mypics
 
-    # specify an alternate directory for the altered images
+    # replace a previous copyright
 
-    imgcopyright -i /home/user/Pictures -name "steve" --dst ~/mypics
-
-    # remove copyright info from image(s)
-
-    imgcopyright -i picture.jpg --remove
-
-    # force over a previous copyright
-
-    imgcopyright -i picture.jpg -n "steve" --force
+    imgcopyright -i picture.jpg -n "steve" -f
 
 =head1 DESCRIPTION
 
@@ -76,10 +69,11 @@ missing copyright info and remove info.
 It works on individual files, as well as recurses (top-level only) of a
 supplied directory.
 
-It does NOT modify the original file. We create a subdirectory named C<ci>
-in whatever path you specify (current working directory if a path is not sent
-in), and we then take a copy of each original file, modify it, prefix the
-filename with a C<ci_>, and place it into the new C<ci> directory.
+It does NOT modify the original file (except for C<remove>). We create a 
+subdirectory named C<ci> in whatever path you specify (current working directory
+if a path is not sent in), and we then take a copy of each original file, modify
+it, prefix the filename with a C<ci_>, and place it into the new C<ci> 
+directory.
 
 =head1 ARGUMENTS
 
@@ -126,6 +120,9 @@ instead.
 =head2 -r, --remove
 
 Optional.
+
+WARNING: This option DOES edit the original file, and does NOT make a copy
+first.
 
 Removes copyright EXIF information for files sent in with C<--image>.
 
