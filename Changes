@@ -1,6 +1,6 @@
 Revision history for App-CopyrightImage
 
-0.04    UNRELEASED
+0.04    2016-07-28
         - added tests for 'dst' and 'remove'
         - updated POD with warnings that 'remove' DOES edit original files
           without making copies
