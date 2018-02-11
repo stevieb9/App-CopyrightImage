@@ -1,7 +1,7 @@
 Revision history for App-CopyrightImage
 
-1.01 UNREL
-        -
+1.01    2018-02-11
+        - force perl 5.10 and remove 5.8 from Travis-CI
 
 1.00    2018-02-11
         - no functional change
